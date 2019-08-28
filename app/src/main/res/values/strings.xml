@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Parked</string>
     <array name="Type">
         <item>Bike</item>
         <item>Car</item>
@@ -8,6 +7,7 @@
         <item>BUS</item>
         <item>Loader</item>
     </array>
+    <string name="app_name">Parked</string>
     <string name="user_location_permission_explanation">This app needs location permissions to show its functionality.</string>
     <string name="user_location_permission_not_granted">You didn\'t grant location permissions.</string>
     <string name="location_picker_dropped_marker_snippet_no_results">location_picker_dropped_marker_snippet_no_results</string>

@@ -1,25 +1,15 @@
 package com.example.parked;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import java.util.List;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.widget.Toast;
 
 // classes needed to initialize map
-import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -58,7 +48,8 @@ import android.view.View;
 import android.widget.Button;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 
-public class Map extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, PermissionsListener {
+
+public class ParkingPin extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, PermissionsListener {
     // variables for adding location layer
     private MapView mapView;
     private MapboxMap mapboxMap;
@@ -72,50 +63,16 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     // variables needed to initialize navigation
     private Button button;
     SharedPreferences readData;
-    String MapBoxGetnearBanklatitude;
-    String MapBoxGetnearBanklogitude;
-    String MapBoxGetnearResturantlatitude;
-    String MapBoxGetnearResturantlogitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.access_token));
-        setContentView(R.layout.activity_map );
-        MapBoxGetnearBanklatitude="32.436471";
-        MapBoxGetnearBanklogitude="74.114511";
-        MapBoxGetnearResturantlatitude="32.480029";
-        MapBoxGetnearResturantlogitude="74.092104";
+        setContentView(R.layout.activity_parking_pin);
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        Intent intent = getIntent();
-        String place_name = "noway";
-        String readDestinationlatitude;
-        String readDestinationlongitude;
         readData= getSharedPreferences("Dataguardian", MODE_PRIVATE);
-         if(place_name.equals("Resturant"))
-        {
-
-            readDestinationlatitude = MapBoxGetnearResturantlatitude;
-            readDestinationlongitude = MapBoxGetnearResturantlogitude;
-        }
-        else
-        {
-            readDestinationlatitude =  "32.436471";
-            readDestinationlongitude = "74.114511";
-        }
-
-
-
-        Point destinationPoint = Point.fromLngLat(Double.parseDouble(readDestinationlongitude), Double.parseDouble(readDestinationlatitude));
-        String readoriginlatitude = "33.5651";
-        String readoriginlongitude = "73.0169";
-        Point originPoint = Point.fromLngLat(Double.parseDouble(readoriginlongitude),
-                Double.parseDouble(readoriginlatitude));
-        getRoute(originPoint, destinationPoint);
-
-
     }
 
     @Override
@@ -128,7 +85,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
 
                 addDestinationIconSymbolLayer(style);
 
-                mapboxMap.addOnMapClickListener(Map.this);
+                mapboxMap.addOnMapClickListener(ParkingPin.this);
 
             }
         });
@@ -148,61 +105,34 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
         loadedMapStyle.addLayer(destinationSymbolLayer);
     }
 
-    @SuppressWarnings( {"MissingPermission"})
+    @SuppressWarnings({"MissingPermission"})
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
+//for checking that either which place is selected
 
 
+        // condition for selected place
 
-        boolean simulateRoute = true;
-        NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                .directionsRoute(currentRoute)
-                .shouldSimulateRoute(simulateRoute)
-                .build();
-        // Call this method with Context from within an Activity
-        NavigationLauncher.startNavigation(Map.this, options);
+
+        Point destinationPoint = Point.fromLngLat(point.getLongitude(),point.getLatitude());
+        String originlongitude = Double.toString(locationComponent.getLastKnownLocation().getLongitude());
+        String originlatitude = Double.toString(locationComponent.getLastKnownLocation().getLatitude());
+
+            Toast.makeText(ParkingPin.this,originlatitude+"yes"+originlongitude,
+                    Toast.LENGTH_LONG).show();
+
+
+        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
+        if (source != null) {
+            source.setGeoJson(Feature.fromGeometry(destinationPoint));
+        }
         return true;
+
     }
 
-    private void getRoute(Point origin, Point destination) {
-        NavigationRoute.builder(this)
-                .accessToken(Mapbox.getAccessToken())
-                .origin(origin)
-                .profile(DirectionsCriteria.PROFILE_DRIVING_TRAFFIC)
-                .destination(destination)
-                .build()
-                .getRoute(new Callback<DirectionsResponse>() {
-                    @Override
-                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-                        // You can get the generic HTTP info about the response
-                        Log.d(TAG, "Response code: " + response.code());
-                        if (response.body() == null) {
-                            Log.e(TAG, "No routes found, make sure you set the right user and access token.");
-                            return;
-                        } else if (response.body().routes().size() < 1) {
-                            Log.e(TAG, "No routes found");
-                            return;
-                        }
 
-                        currentRoute = response.body().routes().get(0);
 
-                        // Draw the route on the map
-                        if (navigationMapRoute != null) {
-                            navigationMapRoute.removeRoute();
-                        } else {
-                            navigationMapRoute = new NavigationMapRoute(null, mapView, mapboxMap, R.style.NavigationMapRoute);
-                        }
-                        navigationMapRoute.addRoute(currentRoute);
-                    }
-
-                    @Override
-                    public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
-    }
-
-    @SuppressWarnings( {"MissingPermission"})
+    @SuppressWarnings({"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
         // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
@@ -219,10 +149,10 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
     @Override
     public void onExplanationNeeded(List<String> permissionsToExplain) {
@@ -280,11 +210,5 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
-
-
-
-
-
 
 }

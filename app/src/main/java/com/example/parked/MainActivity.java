@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this,Map.class);
         startActivity(i);
     }
+    public void openparkingpin(View view)
+    {
+        Intent i = new Intent(this,Mainparkingpin.class);
+        startActivity(i);
+    }
 
 
 
