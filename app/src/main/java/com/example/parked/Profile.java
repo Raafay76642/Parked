@@ -52,19 +52,24 @@ EditText coname,coage,cln;
     public void updateProfile(View view){
         mProgressBarsaving.setMessage("Saving. . .!");
         mProgressBarsaving.show();
-        databaseprofile=databaseprofile.child("CUsers");
+        databaseprofile=FirebaseDatabase.getInstance().getReference ("CUsers");
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String Coname=coname.getText().toString();
         String Coage=coage.getText().toString();
         String Cln=cln.getText().toString();
+            Model_Class model_class = new Model_Class(Coname,Coage,Cln);
+            databaseprofile.child(id).setValue(model_class).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    mProgressBarsaving.cancel();
+                    final Toast toast = Toast.makeText(Profile.this, "Data is Saved", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
+//        databaseprofile.child(id).child("COname").setValue(Coname);
+//        databaseprofile.child(id).child("COage").setValue(Coage);
+//        databaseprofile.child(id).child("CLN").setValue(Cln);
 
-        databaseprofile.child(id).child("COname").setValue(Coname);
-        databaseprofile.child(id).child("COage").setValue(Coage);
-        databaseprofile.child(id).child("CLN").setValue(Cln);
-        getdata();
-        mProgressBarsaving.cancel();
-        final Toast toast = Toast.makeText(Profile.this, "Data is Saved", Toast.LENGTH_LONG);
-        toast.show();
     }
     public void getdata(){
         databaseprofile=databaseprofile.child("CUsers");

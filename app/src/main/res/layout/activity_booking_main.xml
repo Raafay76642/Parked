@@ -55,9 +55,10 @@
                     android:gravity="center"
                     android:text="Naviagte To Parking"
                     android:textAllCaps="true"
+                    android:id="@+id/tnav"
                     android:textColor="@android:color/background_light"
                     android:textStyle="bold"
-                    android:onClick="open_nearby"/>
+                   />
                 <TextView
                     android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
@@ -69,9 +70,11 @@
                     android:gravity="center"
                     android:text="View Booking"
                     android:textAllCaps="true"
+                    android:id="@+id/tbooknow"
                     android:textColor="@android:color/background_light"
                     android:textStyle="bold"
-                    android:onClick="openbookings"/>
+
+                />
             </LinearLayout>
 
         </LinearLayout>
