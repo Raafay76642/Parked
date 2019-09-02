@@ -45,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent =new Intent(this, BookingMain.class);
         startActivity(intent);
     }
-
+    public void openBookings(View view){
+        Intent intent=new Intent(this,MyBookings.class);
+        startActivity(intent);
+    }
 
 
 }

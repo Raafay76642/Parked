@@ -155,7 +155,7 @@
                     android:background="@drawable/layoutround"
                     android:orientation="vertical"
                     android:padding="10sp"
-                    android:onClick="openbookigMain"
+                    android:onClick="openBookings"
 
                     >
 
