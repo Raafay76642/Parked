@@ -76,6 +76,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     String MapBoxGetnearBanklogitude;
     String MapBoxGetnearResturantlatitude;
     String MapBoxGetnearResturantlogitude;
+    Point destinationPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,15 +91,15 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         Intent intent = getIntent();
-        String place_name = "noway";
+        String place_name = intent.getStringExtra("Parent_Activity");
         String readDestinationlatitude;
         String readDestinationlongitude;
-        readData= getSharedPreferences("Dataguardian", MODE_PRIVATE);
-         if(place_name.equals("Resturant"))
+        readData= getSharedPreferences("DataParked", MODE_PRIVATE);
+         if(place_name.equals("ParkingPin"))
         {
 
-            readDestinationlatitude = MapBoxGetnearResturantlatitude;
-            readDestinationlongitude = MapBoxGetnearResturantlogitude;
+            readDestinationlatitude = readData.getString("Parkinglatitude","");
+            readDestinationlongitude = readData.getString("Parkinglongitude","");
         }
         else
         {
@@ -108,16 +109,18 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
 
 
 
-        Point destinationPoint = Point.fromLngLat(Double.parseDouble(readDestinationlongitude), Double.parseDouble(readDestinationlatitude));
-        String readoriginlatitude = "33.5651";
-        String readoriginlongitude = "73.0169";
-        Point originPoint = Point.fromLngLat(Double.parseDouble(readoriginlongitude),
-                Double.parseDouble(readoriginlatitude));
-        getRoute(originPoint, destinationPoint);
+        destinationPoint = Point.fromLngLat(Double.parseDouble(readDestinationlongitude), Double.parseDouble(readDestinationlatitude));
+
+
+
 
 
     }
-
+    public void getnavigation(View view)
+    {
+        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(), locationComponent.getLastKnownLocation().getLatitude());
+        getRoute(originPoint, destinationPoint);
+    }
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
@@ -132,6 +135,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
 
             }
         });
+
     }
 
     private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
@@ -149,6 +153,9 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     }
 
     @SuppressWarnings( {"MissingPermission"})
+
+
+
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
 
@@ -280,11 +287,4 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
-
-
-
-
-
-
 }
