@@ -33,13 +33,17 @@ public class MainActivity extends AppCompatActivity {
     }
     public void opennearlocation(View view)
     {
-        Intent i = new Intent(this,Map.class);
+        Intent i = new Intent(this,NearBy.class);
         startActivity(i);
     }
     public void openparkingpin(View view)
     {
         Intent i = new Intent(this,Mainparkingpin.class);
         startActivity(i);
+    }
+    public void openbookigMain(View view){
+        Intent intent =new Intent(this, BookingMain.class);
+        startActivity(intent);
     }
 
 

@@ -57,7 +57,7 @@
                     android:textAllCaps="true"
                     android:textColor="@android:color/background_light"
                     android:textStyle="bold"
-                    android:onClick="openparkingpin"/>
+                    android:onClick="open_nearby"/>
                 <TextView
                     android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                     android:textAllCaps="true"
                     android:textColor="@android:color/background_light"
                     android:textStyle="bold"
-                    android:onClick="openfindmycar"/>
+                    android:onClick="openbookings"/>
             </LinearLayout>
 
         </LinearLayout>
