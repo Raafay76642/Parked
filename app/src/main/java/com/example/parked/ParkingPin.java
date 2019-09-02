@@ -118,8 +118,13 @@ public class ParkingPin extends AppCompatActivity implements OnMapReadyCallback,
         String originlongitude = Double.toString(locationComponent.getLastKnownLocation().getLongitude());
         String originlatitude = Double.toString(locationComponent.getLastKnownLocation().getLatitude());
 
-            Toast.makeText(ParkingPin.this,originlatitude+"yes"+originlongitude,
+        SharedPreferences.Editor editor= getSharedPreferences("DataParked", MODE_PRIVATE).edit();
+        editor.putString("Parkinglatitude",Double.toString(point.getLatitude()));
+        editor.putString("Parkinglongitude",Double.toString(point.getLongitude()));
+        editor.apply();
+            Toast.makeText(ParkingPin.this,"Location Saved",
                     Toast.LENGTH_LONG).show();
+
 
 
         GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
@@ -137,7 +142,7 @@ public class ParkingPin extends AppCompatActivity implements OnMapReadyCallback,
         // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
             // Activate the MapboxMap LocationComponent to show user location
-            // Adding in LocationComponentOptions is also an optional parameter
+             // Adding in LocationComponentOptions is also an optional parameter
             locationComponent = mapboxMap.getLocationComponent();
             locationComponent.activateLocationComponent(this, loadedMapStyle);
             locationComponent.setLocationComponentEnabled(true);
