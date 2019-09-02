@@ -53,7 +53,7 @@
                     android:background="@drawable/buttonc"
                     android:fontFamily="monospace"
                     android:gravity="center"
-                    android:text="Book Now"
+                    android:text="Naviagte To Parking"
                     android:textAllCaps="true"
                     android:textColor="@android:color/background_light"
                     android:textStyle="bold"
