@@ -11,32 +11,11 @@
         android:layout_marginLeft="10sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Raafay Hussain"
+        android:text="Main Manu"
+        android:gravity="center"
         android:textColor="@android:color/background_light"
         android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/Licence"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10sp"
-        android:paddingLeft="5dp"
-        android:text="Android devloper"
-        android:textAllCaps="true"
-        android:textColor="@android:color/background_light"
-        android:textSize="12sp"
-        android:textStyle="bold" />
-    <TextView
-        android:id="@+id/Vehical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10sp"
-        android:paddingLeft="5dp"
-        android:text="Android devloper"
-        android:textAllCaps="true"
-        android:textColor="@android:color/background_light"
-        android:textSize="12sp"
-        android:textStyle="bold" />
 
 
 
@@ -89,7 +68,7 @@
                     android:background="@drawable/layoutround"
                     android:orientation="vertical"
                     android:padding="10sp"
-                    android:onClick="opencollage"
+                    android:onClick="openHistory"
 
                     >
 
@@ -103,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10sp"
-                        android:text="Saved Places"
+                        android:text="Parking History"
                         android:textAllCaps="true"
                         android:textColor="#fff"
                         android:textSize="12sp"
@@ -205,7 +184,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="10sp"
+                        android:padding="8sp
+                      "
                         android:text="Vehical Information"
                         android:textAllCaps="true"
                         android:textColor="#fff"
@@ -236,7 +216,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10sp"
-                        android:text="Profile"
+                        android:text="Profile
+"
                         android:textAllCaps="true"
                         android:textColor="#fff"
                         android:textSize="12sp"

@@ -77,23 +77,19 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     String MapBoxGetnearResturantlatitude;
     String MapBoxGetnearResturantlogitude;
     Point destinationPoint;
+    String readDestinationlatitude;
+    String readDestinationlongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.access_token));
         setContentView(R.layout.activity_map );
-        MapBoxGetnearBanklatitude="32.436471";
-        MapBoxGetnearBanklogitude="74.114511";
-        MapBoxGetnearResturantlatitude="32.480029";
-        MapBoxGetnearResturantlogitude="74.092104";
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         Intent intent = getIntent();
         String place_name = intent.getStringExtra("Parent_Activity");
-        String readDestinationlatitude;
-        String readDestinationlongitude;
         readData= getSharedPreferences("DataParked", MODE_PRIVATE);
          if(place_name.equals("ParkingPin"))
         {
@@ -101,23 +97,20 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
             readDestinationlatitude = readData.getString("Parkinglatitude","");
             readDestinationlongitude = readData.getString("Parkinglongitude","");
         }
-        else
-        {
-            readDestinationlatitude =  "32.436471";
-            readDestinationlongitude = "74.114511";
-        }
+          if(place_name.equals("Booking"))
+         {
+             String a = intent.getStringExtra("longi");
+             String b = intent.getStringExtra("lati");
+             readDestinationlatitude = a;
+             readDestinationlongitude = b;
+             Toast.makeText(this, readDestinationlongitude, Toast.LENGTH_LONG).show();
 
-
-
-        destinationPoint = Point.fromLngLat(Double.parseDouble(readDestinationlongitude), Double.parseDouble(readDestinationlatitude));
-
-
-
-
+         }
 
     }
     public void getnavigation(View view)
     {
+        destinationPoint = Point.fromLngLat(Double.parseDouble(readDestinationlongitude), Double.parseDouble(readDestinationlatitude));
         Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(), locationComponent.getLastKnownLocation().getLatitude());
         getRoute(originPoint, destinationPoint);
     }

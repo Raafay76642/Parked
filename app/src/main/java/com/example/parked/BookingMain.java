@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BookingMain extends AppCompatActivity {
 String key,longi,lati;
@@ -41,6 +42,7 @@ TextView tbooknow,tnv;
     }
     public void open_navigate(){
         Intent intent= new Intent(this,Map.class);
+        intent.putExtra("Parent_Activity","Booking");
         intent.putExtra("longi",longi);
         intent.putExtra("lati",lati);
         startActivity(intent);
