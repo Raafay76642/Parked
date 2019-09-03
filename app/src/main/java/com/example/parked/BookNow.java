@@ -34,7 +34,7 @@ public class BookNow extends AppCompatActivity {
     String hour;
     EditText estime;
     String stime;
-    String pname;
+    String pname,coname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +47,7 @@ public class BookNow extends AppCompatActivity {
         Intent intent= getIntent();
         key=intent.getStringExtra("key");
         getpname();
+        getuname();
         makebooking = findViewById(R.id.makebooking);
         makebooking.setOnClickListener(new View.OnClickListener()
 
@@ -77,7 +78,7 @@ public class BookNow extends AppCompatActivity {
         String bid=mref.push().getKey();
         hour=hoursE.getText().toString();
         stime=estime.getText().toString();
-        Model_Booking model_booking= new Model_Booking(key,uid,price,hour,stime,bid,pname);
+        Model_Booking model_booking= new Model_Booking(key,uid,price,hour,stime,bid,pname,coname);
         mref.child(bid).setValue(model_booking).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -92,6 +93,22 @@ public class BookNow extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     pname=dataSnapshot.getValue(String.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void getuname(){
+        mref=FirebaseDatabase.getInstance().getReference("CUsers");
+        mref.child(uid).child("coname").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    coname=dataSnapshot.getValue(String.class);
                 }
             }
 

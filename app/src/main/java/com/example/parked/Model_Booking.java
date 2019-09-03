@@ -3,6 +3,16 @@ package com.example.parked;
 public class Model_Booking {
     String pid;
     String uid;
+
+    public String getConame() {
+        return coname;
+    }
+
+    public void setConame(String coname) {
+        this.coname = coname;
+    }
+
+    String coname;
     String pname;
 
     public String getPname() {
@@ -13,7 +23,7 @@ public class Model_Booking {
         this.pname = pname;
     }
 
-    public Model_Booking(String pid, String uid, String fee, String bhours, String stime, String bid, String pname) {
+    public Model_Booking(String pid, String uid, String fee, String bhours, String stime, String bid, String pname, String coname) {
         this.pid = pid;
         this.uid = uid;
         this.fee = fee;
@@ -21,6 +31,7 @@ public class Model_Booking {
         this.stime = stime;
         this.bid = bid;
         this.pname=pname;
+        this.coname=coname;
     }
 
     public Model_Booking() {
